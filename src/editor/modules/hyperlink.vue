@@ -4,11 +4,6 @@
             URL
             <input ref="url" type="text" style="width: 40%" v-model="url">
         </label>
-        <label>
-            Link Title
-            <input type="text" style="width: 40%" v-model="title">
-        </label>
-
         <button type="submit">Insert</button>
     </form>
 
@@ -33,7 +28,7 @@ export default {
     },
     methods: {
         insertLink(){
-            this.$emit("exec", "insertHTML", `<a href='${this.url}'>${this.title}</a>`);
+            this.$emit("exec", "createLink", this.url);
             this.$parent.closeDashboard();
             this.url = "";
             this.title = "";
