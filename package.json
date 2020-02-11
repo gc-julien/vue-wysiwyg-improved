@@ -1,6 +1,6 @@
 {
-  "name": "vue-wysiwyg-improved",
-  "version": "1.7.4",
+  "name": "vue-wysiwyg-improved-html",
+  "version": "1.7.5",
   "description": "A WYSIWYG HTML editor for Vue.js",
   "keywords": [
     "vue",
@@ -70,10 +70,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Ramya-Palaniswami/vue-wysiwyg.git"
+    "url": "git+https://github.com/luxor-git/vue-wysiwyg-improved"
   },
   "bugs": {
-    "url": "https://github.com/Ramya-Palaniswami/vue-wysiwyg/issues"
+    "url": "https://github.com/luxor-git/vue-wysiwyg-improved"
   },
-  "homepage": "https://github.com/Ramya-Palaniswami/vue-wysiwyg#readme"
+  "homepage": "https://github.com/luxor-git/vue-wysiwyg-improved#readme"
 }

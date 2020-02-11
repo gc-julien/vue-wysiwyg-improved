@@ -12,7 +12,7 @@
             :title="module.description || ''"
         )
 
-    .editr--content(ref="content", contenteditable="true", tabindex="1", :placeholder="placeholder", :disabled="disabled")
+    .editr--content(ref="content", v-bind:contenteditable="!disabled", tabindex="1", :placeholder="placeholder", v-bind:disabled="disabled")
 
 </template>
 
@@ -43,7 +43,7 @@ import removeFormat from "./modules/removeFormat.js";
 
 import separator from "./modules/separator.js";
 
-import 'sanitize-html/dist/sanitize-html-es2015';
+import sanitizeHtml from 'sanitize-html/dist/sanitize-html-es2015';
 
 const modules = [
     bold, italic, underline, separator,
@@ -163,7 +163,11 @@ export default {
             }
           }
         },
-        exec (cmd, arg, sel){
+        exec (cmd, arg, sel) {
+            if (this.disabled) {
+                return;
+            }
+
             sel !== false && this.selection && this.restoreSelection(this.selection);
             document.execCommand(cmd, false, arg||"");
             this.clearSelection();
@@ -185,10 +189,16 @@ export default {
         },
 
         onInput: debounce(function() {
+          if (this.disabled) {
+            return;
+          }
           this.emit();
         }, 300),
 
         onKeyDown: debounce(function() {
+          if (this.disabled) {
+            return;
+          }
           if (navigator.userAgent.indexOf('MSIE') > 0 || navigator.userAgent.match(/Trident.*rv:11\./)) {
             setTimeout(() => {
               this.emit();
@@ -197,15 +207,25 @@ export default {
         }, 300),
 
         onFocus () {
+          if (this.disabled) {
+            return;
+          }
           document.execCommand("defaultParagraphSeparator", false, this.mergedOptions.paragraphSeparator)
         },
 
         onContentBlur () {
+          if (this.disabled) {
+            return;
+          }
           // save focus to restore it later
           this.selection = this.saveSelection();
         },
 
         onPaste(e) {
+            if (this.disabled) {
+               return;
+            }
+
             e.preventDefault();
 
              // get a plain representation of the clipboard
@@ -216,6 +236,9 @@ export default {
         },
 
         onPasteSanitize(e) {
+            if (this.disabled) {
+               return;
+            }
             e.preventDefault();
 
              // get a HTML representation of the clipboard
@@ -234,6 +257,8 @@ export default {
     },
 
     mounted () {
+        console.log('Disabled', this.disabled);
+        
         this.unwatch = this.$watch("html", this.syncHTML, { immediate: true});
 
         document.addEventListener("click", this.onDocumentClick);
@@ -343,6 +368,10 @@ $svgSize = 16px
     font-family inherit
     color inherit
     overflow-y auto
+
+    &[disabled]
+        background-color: #f4f4f4;
+        cursor: not-allowed;
 
     &[contenteditable=true]:empty:before
         content: attr(placeholder);
