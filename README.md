@@ -59,7 +59,13 @@ All keys are optional.
   maxHeight: "500px",
 
   // set to 'true' this will insert plain text without styling when you paste something into the editor.
-  forcePlainTextOnPaste: true
+  forcePlainTextOnPaste: true,
+
+  // forces HTML on paste
+  forceHtmlOnPaste: true,
+
+  //sanitize-html options
+  htmlSanitizeOptions: true
 }
 ```
 Available Modules:

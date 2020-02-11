@@ -6,12 +6,13 @@
             :module="module",
             :options="mergedOptions",
             :key="module.title + i",
+            :disabled="disabled"
 
             :ref="'btn-'+module.title",
             :title="module.description || ''"
         )
 
-    .editr--content(ref="content", contenteditable="true", tabindex="1", :placeholder="placeholder")
+    .editr--content(ref="content", contenteditable="true", tabindex="1", :placeholder="placeholder", :disabled="disabled")
 
 </template>
 
@@ -42,6 +43,8 @@ import removeFormat from "./modules/removeFormat.js";
 
 import separator from "./modules/separator.js";
 
+import 'sanitize-html/dist/sanitize-html-es2015';
+
 const modules = [
     bold, italic, underline, separator,
     alignLeft, alignCenter, alignRight, separator,
@@ -66,7 +69,11 @@ export default {
             type: String,
             default: "Enter text..."
         },
-        options: Object
+        options: Object,
+        disabled: {
+            type: Boolean,
+            default: false
+        }
     },
 
 
@@ -208,6 +215,18 @@ export default {
             document.execCommand("insertHTML", false, text);
         },
 
+        onPasteSanitize(e) {
+            e.preventDefault();
+
+             // get a HTML representation of the clipboard
+            var text = e.clipboardData.getData("text/html");
+
+            text = sanitizeHtml(text, this.mergedOptions.htmlSanitizeOptions);
+
+            // insert that plain text text manually
+            document.execCommand("insertHTML", false, text);
+        },
+
         syncHTML () {
             if (this.html !== this.$refs.content.innerHTML)
                 this.innerHTML = this.html;
@@ -228,6 +247,8 @@ export default {
 
         if (this.mergedOptions.forcePlainTextOnPaste === true) {
             this.$refs.content.addEventListener("paste", this.onPaste);
+        } else if (this.mergedOptions.htmlSanitizeOptions && this.mergedOptions.forceHtmlOnPaste) {
+            this.$refs.content.addEventListener("paste", this.onPasteSanitize);
         }
         
         this.$refs.content.style.maxHeight = this.mergedOptions.maxHeight;
