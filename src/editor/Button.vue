@@ -44,9 +44,9 @@ export default {
 			this.showDashboard = true;
 		},
 
-    exec () {
-      this.$parent.exec.apply(null, arguments)
-    },
+		exec () {
+			this.$parent.exec.apply(null, arguments)
+		},
 
 		onBtnClick ($event) {
 			$event.preventDefault();

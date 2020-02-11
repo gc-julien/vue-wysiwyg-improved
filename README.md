@@ -65,7 +65,10 @@ All keys are optional.
   forceHtmlOnPaste: true,
 
   //sanitize-html options
-  htmlSanitizeOptions: {}
+  htmlSanitizeOptions: {},
+
+  // if true, clears selection every time an action is issued
+  clearSelection: false
 }
 ```
 Available Modules:

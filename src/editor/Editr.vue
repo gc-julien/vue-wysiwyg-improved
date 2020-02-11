@@ -170,7 +170,11 @@ export default {
 
             sel !== false && this.selection && this.restoreSelection(this.selection);
             document.execCommand(cmd, false, arg||"");
-            this.clearSelection();
+
+            if (this.mergedOptions.clearSelection) {
+                this.clearSelection();
+            }
+            //
 
             this.$nextTick(this.emit);
         },

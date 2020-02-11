@@ -1,7 +1,7 @@
 {
   "name": "vue-wysiwyg-improved-html",
-  "version": "1.7.5",
-  "description": "A WYSIWYG HTML editor for Vue.js",
+  "version": "1.7.8",
+  "description": "An improvement of the classic WYSIWYG HTML editor for Vue.js",
   "keywords": [
     "vue",
     "vue2",
