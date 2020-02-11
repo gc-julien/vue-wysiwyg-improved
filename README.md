@@ -65,7 +65,7 @@ All keys are optional.
   forceHtmlOnPaste: true,
 
   //sanitize-html options
-  htmlSanitizeOptions: true
+  htmlSanitizeOptions: {}
 }
 ```
 Available Modules:
