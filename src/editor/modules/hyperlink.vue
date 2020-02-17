@@ -1,8 +1,9 @@
+
 <template>
     <form @submit.prevent="insertLink">
         <label>
             URL
-            <input ref="url" type="text" style="width: 40%" v-model="url">
+            <input ref="url" type="text" style="width: 100%" v-model="url">
         </label>
         <button type="submit">Insert</button>
     </form>
@@ -28,7 +29,8 @@ export default {
     },
     methods: {
         insertLink(){
-            this.$emit("exec", "createLink", this.url);
+            console.log(this.url);
+            this.$emit("exec", "CreateLink", this.url);
             this.$parent.closeDashboard();
             this.url = "";
             this.title = "";
@@ -36,12 +38,14 @@ export default {
     },
 
     created () {
-        bus.on(this.uid + "_show_dashboard_link", () => {
+        var prompt = window.prompt("Vložte odkaz", "https://");
+        this.$emit("exec", "CreateLink", prompt);
+        this.$parent.closeDashboard();
+        /*bus.on(this.uid + "_show_dashboard_link", () => {
             this.$nextTick(() => {
                 this.$refs.url.focus();
             });
-        });
-
+        });*/
     }
 };
 </script>

@@ -50,10 +50,19 @@ export default {
 
 		onBtnClick ($event) {
 			$event.preventDefault();
-			if (this.module.action !== undefined)
-				this.exec.apply(null, this.module.action);
 
-			else if (this.module.customAction !== undefined) {
+
+
+			if (this.module.action !== undefined)
+			{
+				if (this.module.value) {
+					let val = this.module.value();
+					let arr = this.module.action.concat([val]);
+					this.exec.apply(null, arr);
+				} else {
+					this.exec.apply(null, this.module.action);
+				}
+			} else if (this.module.customAction !== undefined) {
 				this.module.customAction(bus.utils).forEach(a => this.exec.apply(null, a));
 			}
 

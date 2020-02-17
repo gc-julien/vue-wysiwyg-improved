@@ -7,6 +7,7 @@
             :options="mergedOptions",
             :key="module.title + i",
             :disabled="disabled"
+            :selection="selection"
 
             :ref="'btn-'+module.title",
             :title="module.description || ''"
@@ -31,7 +32,7 @@ import alignRight from "./modules/alignRight.js"
 
 
 import headings from "./modules/headings.vue";
-import hyperlink from "./modules/hyperlink.vue";
+import hyperlink from "./modules/hyperlink.js";
 import code from "./modules/code.js";
 import list_ordered from "./modules/list_ordered.js";
 import list_unordered from "./modules/list_unordered.js";
@@ -169,6 +170,9 @@ export default {
             }
 
             sel !== false && this.selection && this.restoreSelection(this.selection);
+
+            console.log('exec command', cmd, arg||"", sel);
+
             document.execCommand(cmd, false, arg||"");
 
             if (this.mergedOptions.clearSelection) {
