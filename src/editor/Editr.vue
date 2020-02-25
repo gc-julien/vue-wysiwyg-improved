@@ -144,8 +144,11 @@ export default {
             if (range) {
                 if (window.getSelection !== undefined) {
                     this.selection = window.getSelection();
-                    this.selection.removeAllRanges();
-                    this.selection.addRange(range);
+                    console.log(window.getSelection());
+                    if (this.selection) {
+                        this.selection.removeAllRanges();
+                        this.selection.addRange(range);
+                    }
                 }
                 else if (document.selection && range.select)
                     range.select();
@@ -169,6 +172,9 @@ export default {
                 return;
             }
 
+            console.log(sel);
+            console.log(this.selection);
+
             sel !== false && this.selection && this.restoreSelection(this.selection);
 
             console.log('exec command', cmd, arg||"", sel);
@@ -178,7 +184,6 @@ export default {
             if (this.mergedOptions.clearSelection) {
                 this.clearSelection();
             }
-            //
 
             this.$nextTick(this.emit);
         },
@@ -189,6 +194,8 @@ export default {
                 if (btn && btn.showDashboard && !btn.$el.contains(e.target))
                     btn.closeDashboard();
             }
+
+            this.selection = this.saveSelection();
         },
 
         emit () {
@@ -218,7 +225,9 @@ export default {
           if (this.disabled) {
             return;
           }
-          document.execCommand("defaultParagraphSeparator", false, this.mergedOptions.paragraphSeparator)
+
+
+          document.execCommand("defaultParagraphSeparator", false, this.mergedOptions.paragraphSeparator);
         },
 
         onContentBlur () {
