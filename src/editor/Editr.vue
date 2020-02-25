@@ -252,6 +252,10 @@ export default {
              // get a HTML representation of the clipboard
             var text = e.clipboardData.getData("text/html");
 
+            if (!text) {
+                text = e.clipboardData.getData('text/plain');
+            }
+
             text = sanitizeHtml(text, this.mergedOptions.htmlSanitizeOptions);
 
             // insert that plain text text manually
