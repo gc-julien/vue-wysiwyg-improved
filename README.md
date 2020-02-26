@@ -4,7 +4,7 @@ Forked from [vue-wysiwyg](https://github.com/chmln/vue-wysiwyg)
 
 
 ## Usage
-Works in IE11
+Works in IE11 (no, really, it does).
 
 ### Install vue-wysiwyg
 
