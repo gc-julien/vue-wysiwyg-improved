@@ -175,7 +175,9 @@ export default {
             console.log(sel);
             console.log(this.selection);
 
-            sel !== false && this.selection && this.restoreSelection(this.selection);
+            if (this.restoreSelection) {
+                sel !== false && this.selection && this.restoreSelection(this.selection);
+            }
 
             console.log('exec command', cmd, arg||"", sel);
 
