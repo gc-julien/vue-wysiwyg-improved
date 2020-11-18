@@ -144,7 +144,6 @@ export default {
             if (range) {
                 if (window.getSelection !== undefined) {
                     this.selection = window.getSelection();
-                    console.log(window.getSelection());
                     if (this.selection) {
                         this.selection.removeAllRanges();
                         this.selection.addRange(range);
@@ -172,14 +171,9 @@ export default {
                 return;
             }
 
-            console.log(sel);
-            console.log(this.selection);
-
             if (this.restoreSelection) {
                 sel !== false && this.selection && this.restoreSelection(this.selection);
             }
-
-            console.log('exec command', cmd, arg||"", sel);
 
             document.execCommand(cmd, false, arg||"");
 
@@ -254,25 +248,6 @@ export default {
             document.execCommand("insertHTML", false, text);
         },
 
-        onPasteSanitize(e) {
-            if (this.disabled) {
-               return;
-            }
-            e.preventDefault();
-
-             // get a HTML representation of the clipboard
-            var text = e.clipboardData.getData("text/html");
-
-            if (!text) {
-                text = e.clipboardData.getData('text/plain');
-            }
-
-            text = sanitizeHtml(text, this.mergedOptions.htmlSanitizeOptions);
-
-            // insert that plain text text manually
-            document.execCommand("insertHTML", false, text);
-        },
-
         syncHTML () {
             if (this.html !== this.$refs.content.innerHTML)
                 this.innerHTML = this.html;
@@ -280,8 +255,6 @@ export default {
     },
 
     mounted () {
-        console.log('Disabled', this.disabled);
-        
         this.unwatch = this.$watch("html", this.syncHTML, { immediate: true});
 
         document.addEventListener("click", this.onDocumentClick);
@@ -295,10 +268,8 @@ export default {
 
         if (this.mergedOptions.forcePlainTextOnPaste === true) {
             this.$refs.content.addEventListener("paste", this.onPaste);
-        } else if (this.mergedOptions.htmlSanitizeOptions && this.mergedOptions.forceHtmlOnPaste) {
-            this.$refs.content.addEventListener("paste", this.onPasteSanitize);
         }
-        
+
         this.$refs.content.style.maxHeight = this.mergedOptions.maxHeight;
     },
 
